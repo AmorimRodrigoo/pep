@@ -31,3 +31,18 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Angular / Node
+node_modules/
+dist/
+.angular/
+
+# IDEs
+.idea/
+*.swp
+
+# Ambiente e Sistema
+.env
+.DS_Store
+Thumbs制造
+*.log
