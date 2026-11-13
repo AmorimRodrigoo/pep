@@ -1,0 +1,49 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: pep-patient-service
+
+  # 1. Banco Relacional (PostgreSQL) + Resiliência de Pool (Seção 6.1)
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pep_patient
+    username: postgres
+    password: changeit
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 3000      # Falha rápido (3s) em vez de travar threads
+      max-lifetime: 1800000
+      leak-detection-threshold: 5000
+
+  jpa:
+    open-in-view: false             # Boa prática de performance para evitar queries N+1 na view
+    hibernate:
+      ddl-auto: validate            # O Flyway cria o banco; o Hibernate apenas valida
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  # 2. Banco Documental (MongoDB - Seção 2.1 e 3.2)
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/pep_clinical
+      auto-index-creation: true     # Permite criar o índice composto via anotação no código
+
+  # 3. Suporte nativo ao padrão RFC 9457 (Problem Details - Seção 4)
+  mvc:
+    problemdetails:
+      enabled: true
+
+# Configuração para geração do Token JWT (Seção 5)
+pep:
+  security:
+    jwt-secret: ${JWT_SECRET:chave-secreta-padrao-apenas-para-ambiente-dev-local-32-bytes}
+    jwt-expiration-ms: 3600000 # 1 hora
