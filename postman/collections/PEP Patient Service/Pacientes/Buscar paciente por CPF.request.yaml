@@ -1,0 +1,14 @@
+$kind: http-request
+method: GET
+url: '{{base_url}}/api/v1/pacientes/cpf/:cpf'
+order: 3000
+pathVariables:
+  - key: cpf
+    value: '{{patient_cpf}}'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 200", function () {
+        pm.response.to.have.status(200);
+      });

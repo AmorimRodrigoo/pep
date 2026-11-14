@@ -1,0 +1,26 @@
+$kind: http-request
+method: PUT
+url: '{{base_url}}/api/v1/pacientes/:id'
+order: 5000
+headers:
+  Content-Type: application/json
+pathVariables:
+  - key: id
+    value: '{{patient_id}}'
+body:
+  type: json
+  content: |-
+    {
+      "cpf": "52998224725",
+      "nome": "Maria da Silva Atualizada",
+      "dataNascimento": "1990-05-20",
+      "telefone": "+5511988888888",
+      "email": "maria.atualizada@example.com"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 200", function () {
+        pm.response.to.have.status(200);
+      });

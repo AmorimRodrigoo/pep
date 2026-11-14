@@ -1,0 +1,27 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/api/v1/pacientes'
+order: 1000
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "cpf": "52998224725",
+      "nome": "Maria da Silva",
+      "dataNascimento": "1990-05-20",
+      "telefone": "+5511999999999",
+      "email": "maria@example.com"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 201", function () {
+        pm.response.to.have.status(201);
+      });
+      const response = pm.response.json();
+      if (response.id) {
+        pm.collectionVariables.set("patient_id", String(response.id));
+      }

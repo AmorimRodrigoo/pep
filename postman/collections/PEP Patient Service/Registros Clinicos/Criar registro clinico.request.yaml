@@ -1,0 +1,27 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/api/v1/registros-clinicos'
+order: 1000
+headers:
+  Content-Type: application/json
+  Idempotency-Key: '{{idempotency_key}}'
+body:
+  type: json
+  content: |-
+    {
+      "pacienteId": {{patient_id}},
+      "tipo": "EVOLUCAO_CLINICA",
+      "dataRegistro": "2026-11-13T23:58:00Z",
+      "profissionalId": {{professional_id}},
+      "conteudo": {
+        "descricao": "Paciente em bom estado geral",
+        "observacoes": "Retorno em 30 dias"
+      }
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 201", function () {
+        pm.response.to.have.status(201);
+      });

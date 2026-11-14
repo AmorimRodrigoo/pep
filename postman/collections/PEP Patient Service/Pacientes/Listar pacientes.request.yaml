@@ -1,0 +1,18 @@
+$kind: http-request
+method: GET
+url: '{{base_url}}/api/v1/pacientes?page=0&size=20&sort=nome,asc'
+order: 4000
+queryParams:
+  - key: page
+    value: '0'
+  - key: size
+    value: '20'
+  - key: sort
+    value: 'nome,asc'
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 200", function () {
+        pm.response.to.have.status(200);
+      });

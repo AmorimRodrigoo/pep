@@ -1,0 +1,14 @@
+$kind: collection
+name: PEP Patient Service
+description: API requests generated from the Spring controllers in pep-patient-service.
+variables:
+  - key: base_url
+    value: 'http://localhost:8081'
+  - key: patient_id
+    value: '1'
+  - key: patient_cpf
+    value: '52998224725'
+  - key: professional_id
+    value: '1'
+  - key: idempotency_key
+    value: 'replace-with-a-unique-key'
